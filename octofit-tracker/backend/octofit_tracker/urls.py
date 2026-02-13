@@ -2,6 +2,18 @@
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
+
+REST API Base URL Configuration:
+    - Local: http://localhost:8000/api/
+    - Codespace: https://$CODESPACE_NAME-8000.app.github.dev/api/
+
+API Endpoints:
+    - /api/users/
+    - /api/teams/
+    - /api/activities/
+    - /api/leaderboard/
+    - /api/workouts/
+
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -13,6 +25,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
@@ -24,6 +37,15 @@ from .views import (
     LeaderboardViewSet,
     WorkoutViewSet
 )
+
+# Codespace URL configuration
+CODESPACE_NAME = os.getenv('CODESPACE_NAME')
+if CODESPACE_NAME:
+    # API Base URL: https://$CODESPACE_NAME-8000.app.github.dev/api/
+    API_BASE_URL = f'https://{CODESPACE_NAME}-8000.app.github.dev/api/'
+else:
+    # API Base URL: http://localhost:8000/api/
+    API_BASE_URL = 'http://localhost:8000/api/'
 
 # Create a router and register viewsets
 router = DefaultRouter()
